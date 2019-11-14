@@ -23,16 +23,16 @@ const getOne = (req, res) => {
 
 const save = (req, res) => {
     var data = req.body;
-    let err = 0;
-    if(data.ime == undefined || data.ime.length == 0) {err++;}
-    if(data.rezija == undefined || data.rezija.length == 0) {err++;}
-    if(data.godina == undefined || data.godina.length == 0) {err++;}
-    if(data.zanr == undefined || data.zanr.length == 0) {err++;}
-    if(data.akteri == undefined || data.akteri.length == 0) {err++;}
-    if(data.oscar == undefined) {err++;}
+    let er = 0;
+    if(data.ime == undefined || data.ime.length == 0) {er++;}
+    if(data.rezija == undefined || data.rezija.length == 0) {er++;}
+    if(data.godina == undefined || data.godina.length == 0) {er++;}
+    if(data.zanr == undefined || data.zanr.length == 0) {er++;}
+    if(data.akteri == undefined || data.akteri.length == 0) {er++;}
+    if(data.oskar == undefined) {er++;}
 
 
-    if(err == 0){
+    if(er == 0){
     mFilmovi.save(data)
     .then(() => {
         res.status(201).send("Created");
@@ -43,20 +43,44 @@ const save = (req, res) => {
 }else {
     res.status(400).send('Bad request');
 }
-}
+};
 
 
 const replace = (req, res) => {
-    res.send('OK');
+    var data = req.body;
+    let er = 0;
+    if(data.ime == undefined || data.ime.length == 0) {er++;}
+    if(data.rezija == undefined || data.rezija.length == 0) {er++;}
+    if(data.godina == undefined || data.godina.length == 0) {er++;}
+    if(data.zanr == undefined || data.zanr.length == 0) {er++;}
+    if(data.akteri == undefined || data.akteri.length == 0) {er++;}
+    if(data.oskar == undefined) {er++;}
+    for(let i = 0; i < data.length; i++){
+        if(data[i].id == req.params.id){
+            data[i] = req.body;
+            break;
+        }
+    }
+    if(er == 0){
+    mFilmovi.replace(req.params.id)
+    .then(() => {
+        res.status(201).send("Created");
+    })
+    .catch(err =>{
+        res.status(500).send(err);
+    });      
+}else {
+    res.status(400).send('Bad request');
 }
+};
 
 const update = (req, res) => {
     res.send('OK');
-}
+};
 
 const remove = (req, res) => {
     res.send('OK');
-}
+};
 
 module.exports = {
     getAll,

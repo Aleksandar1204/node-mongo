@@ -48,12 +48,24 @@ const Film = mongoose.model(
         });
     };
 
+    const replace = (id) => {
+        return new Promise((success, fail) => {
+            Film.findById(id, (err, data) =>  {  
+                if(err){
+                    return fail(err);
+                }
+                return success(data);
+                
+            });
+        });
+    };
 
 
 
     module.exports = {
         getAll,
         getOne,
-        save
+        save,
+        replace
 
     }

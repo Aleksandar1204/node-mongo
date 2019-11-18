@@ -55,16 +55,11 @@ const replace = (req, res) => {
     if(data.zanr == undefined || data.zanr.length == 0) {er++;}
     if(data.akteri == undefined || data.akteri.length == 0) {er++;}
     if(data.oskar == undefined) {er++;}
-    for(let i = 0; i < data.length; i++){
-        if(data[i].id == req.params.id){
-            data[i] = req.body;
-            break;
-        }
-    }
+  
     if(er == 0){
-    mFilmovi.replace(req.params.id)
+    mFilmovi.replace(req.params.id, data)
     .then(() => {
-        res.status(201).send("Created");
+        res.status(204).send();
     })
     .catch(err =>{
         res.status(500).send(err);
@@ -75,11 +70,26 @@ const replace = (req, res) => {
 };
 
 const update = (req, res) => {
-    res.send('OK');
-};
+    var data = req.body;
+    mFilmovi.replace(req.params.id, data)
+    .then(() => {
+        res.status(204).send();
+    })
+    .catch(err =>{
+        res.status(500).send(err);
+    });      
+}
+
 
 const remove = (req, res) => {
-    res.send('OK');
+    // res.send('OK');
+    mFilmovi.remove(req.params.id)
+    .then(()=>{
+        res.status(204).send();
+    })
+    .catch(err =>{
+        res.status(500).send(err)
+    })
 };
 
 module.exports = {

@@ -48,24 +48,37 @@ const Film = mongoose.model(
         });
     };
 
-    const replace = (id) => {
-        return new Promise((success, fail) => {
-            Film.findById(id, (err, data) =>  {  
+
+    const remove = (id) =>{
+        return new Promise((success, fail)=>{
+            Film.deleteOne({_id: id}, err =>{
                 if(err){
                     return fail(err);
                 }
-                return success(data);
-                
+                return success()
+            });
+        });
+    }
+
+    const replace = (id, data) => {
+        return new Promise((success, fail) => {
+            Film.updateOne({_id: id}, data, err =>  {  
+                if(err){
+                    return fail(err);
+                }
+                return success();
             });
         });
     };
 
+  
 
 
     module.exports = {
         getAll,
         getOne,
         save,
-        replace
+        replace,  
+        remove
 
     }

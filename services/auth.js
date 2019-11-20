@@ -1,0 +1,27 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const config = require('../config/index.js');
+const DBconn = require('../db/connection');
+const auth = require('../handlers/auth');
+
+DBconn.init(config.getConfig('db'));
+
+var api = express();
+api.use(bodyParser.json());
+
+api.post('/api/v1/register', auth.register);
+api.post('/api/v1/login', auth.login);
+api.get('/api/v1/renew', auth.renew);
+api.post('/api/v1/reset-link', auth.reset-link);
+api.post('/api/v1/reset-password', auth.reset-password);
+api.post('/api/v1/change-password', auth.change-password);
+
+api.listen(8081, err =>{
+    if(err){
+        console.log('could not start server');
+        console.log(err);
+        return;
+    }
+    console.log('Server started on port 8081')
+});

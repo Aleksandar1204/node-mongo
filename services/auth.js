@@ -13,9 +13,9 @@ api.use(bodyParser.json());
 api.post('/api/v1/register', auth.register);
 api.post('/api/v1/login', auth.login);
 api.get('/api/v1/renew', auth.renew);
-api.post('/api/v1/reset-link', auth.reset-link);
-api.post('/api/v1/reset-password', auth.reset-password);
-api.post('/api/v1/change-password', auth.change-password);
+api.post('/api/v1/reset-link', auth.resetLink);
+api.post('/api/v1/reset-password', auth.resetPassword);
+api.post('/api/v1/change-password', auth.changePassword);
 
 api.listen(8081, err =>{
     if(err){

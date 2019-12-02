@@ -37,6 +37,14 @@ api.post('/api/v1/reset-link', auth.resetLink);
 api.post('/api/v1/reset-password', auth.resetPassword);
 api.post('/api/v1/change-password', auth.changePassword);
 
+api.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send({message: 'Invalid token'});
+    } else {
+        next(err);
+    }
+});
+
 api.listen(8081, err =>{
     if(err){
         console.log('could not start server');

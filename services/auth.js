@@ -2,31 +2,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var jwt = require('express-jwt');
 const config = require('../config/index.js');
-const DBconn = require('../db/connection');
+const db = require('../db/connection');
 const auth = require('../handlers/auth');
 const path = require('path');
 
-DBconn.init(config.getConfig('db'));
+db.init(config.getConfig('db'));
+
 
 var api = express();
-//////////////////////////////
-//only for testing purposes
-////////////////////////////
-
-var pub = path.join(__dirname, '..', 'public')
+// //////////////////////////
+// only for testing purposes
+// //////////////////////////
+var pub = path.join(__dirname, '..', 'public');
 api.use('/public', express.static(pub));
-//////////////////////////////
-//only for testing purposes
-////////////////////////////
-
-
+// //////////////////////////
+// only for testing purposes
+// //////////////////////////
 api.use(bodyParser.json());
 api.use(
     jwt(
         {secret: config.getConfig('jwt').key}
     )
     .unless(
-        {path: ['api/v1/register', '/api/v1/login', '/public']}
+        {path: ['/api/v1/register', '/api/v1/login', '/public']}
     )
 );
 
@@ -45,11 +43,11 @@ api.use(function (err, req, res, next) {
     }
 });
 
-api.listen(8081, err =>{
+api.listen(8081, err => {
     if(err){
-        console.log('could not start server');
+        console.log('Could not start server');
         console.log(err);
         return;
     }
-    console.log('Server started on port 8081')
+    console.log('Server successfully started on port 8081');
 });

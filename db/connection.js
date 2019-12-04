@@ -24,3 +24,9 @@ const parseCString = (config) =>{
 }
 
 module.exports = {init}
+
+
+///////////////////////////////////////
+// "jwt": {
+//   "key": "kluch"
+// }

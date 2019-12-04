@@ -7,7 +7,7 @@ const Film = mongoose.model(
         godina: Date,
         zanr: [String],
         rezija: String,
-        oscar: Boolean,
+        oskar: Boolean,
         akteri: [String],
         user_id: String
     }, 
@@ -16,9 +16,9 @@ const Film = mongoose.model(
     })
 );
 
-const getAll = (userID) => {
+const getAll = (q, sort) => {
     return new Promise((success, fail) => {
-        Film.find({user_id: userID}, (err, data) => {
+        Film.find(q, {}, {sort:sort}, (err, data) => {
             if(err){
                 return fail(err);
             }

@@ -1,7 +1,7 @@
 const mProducts = require('../models/products');
 
 const getAll = (req, res) => {
-    mProducts.getAll(req.user.id)
+    mProducts.getAll(req.data)
     .then(data => {
         res.status(200).send(data);
     })

@@ -4,6 +4,8 @@ var validator = require('node-input-validator');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const config = require('../config/index.js');
+const randomstring = require('randomstring')
+const sgMail = require('@sendgrid/mail')
 
 const register = (req, res) => {
     var v = new validator.Validator(req.body, vUsers.createUser);
@@ -20,8 +22,29 @@ const register = (req, res) => {
                         throw new Error(err);
                         return;
                     }
-                    return mUsers.createUser({...req.body, password: hash});
+                    var confirm_hash = randomstring.generate({
+                        length : 30,
+                        charset: 'alphanumeric'
+                    });
+                    mUsers.createUser({
+                        ...req.body, 
+                        password: hash,
+                        confirm_hash: confirm_hash,
+                        confirmed: false
+                    
+                    });
+                    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                const msg = {
+                to: 'test@example.com',
+                from: 'test@example.com',
+                subject: 'Thanks for registering',
+                text: 'Thanks for registering',
+                html: `<a href="http://localhost:8081/api/v1/confirm/${confirm_hash}">Click here to confirm your account</a>`,
+                };
+                sgMail.send(msg);
+                    return 
                 });
+                
             });
         } else {
             throw new Error('Validation failed');
@@ -77,11 +100,31 @@ const changePassword = (req, res) => {
     return res.status(200).send('ok');
 }
 
+const confirm = (req, res) => {
+    // koga nekoj kje klikne na 
+    // http://localhost:8081/auth/v1/confirm/[CONFIRM_HASH]
+    // go nosi na ovoj handler
+    // go prezemate hash-ot
+    // proveruvate vo baza dali vakov hash postoi
+    // ako postoi na istiot record mu setirate
+    // confirmed: true
+    var hash = req.params.confirm_hash;
+    mUsers.confirmUserAccount(hash)
+    .then(() =>{
+        return res.status(200).send('ok')
+    })
+    .catch((err)=>{
+        return res.status(500).send('Internal server error');
+    })
+    return res.status(200).send('ok');
+}
+
 module.exports = {
     register,
     login,
     renew,
     resetLink,
     resetPassword,
-    changePassword
+    changePassword,
+    confirm
 }

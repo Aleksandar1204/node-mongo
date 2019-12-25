@@ -1,0 +1,11 @@
+{
+    "db":{
+        "host": "cluster0-mpzfl.mongodb.net",
+        "dbname":"videoteka",
+        "username":"dev",
+        "password":"DEV123!"
+    },
+    "jwt": {
+        "key": "kluch"
+    }
+}

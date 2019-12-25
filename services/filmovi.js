@@ -18,7 +18,7 @@ api.use(
     )
 );
 
-api.get('/api/v1/filmovi', filmovi.getAll);
+api.get('/api/v1/filmovi/', filmovi.getAll);
 api.get('/api/v1/filmovi/:id', filmovi.getOne);
 api.post('/api/v1/filmovi/', filmovi.save);
 api.put('/api/v1/filmovi/:id', filmovi.replace);

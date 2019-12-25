@@ -23,7 +23,7 @@ api.all('/*', (req,res)=>{
     res.status(404).send('Not Found!')
 });
 
-api.listen(proces.env.PORT, err =>{
+api.listen(process.env.PORT, err =>{
     if(err){
         console.log('could not start server');
         console.log(err);

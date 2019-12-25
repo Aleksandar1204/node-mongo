@@ -42,6 +42,7 @@ const confirmUserAccount = (hash) => {
             if(err){
                 return fail(err)
             }
+            return success();
         })
     })
 }

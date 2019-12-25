@@ -35,7 +35,7 @@ const register = (req, res) => {
                     });
                     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
                 const msg = {
-                to: 'test@example.com',
+                to: req.body.email,
                 from: 'test@example.com',
                 subject: 'Thanks for registering',
                 text: 'Thanks for registering',
@@ -116,7 +116,7 @@ const confirm = (req, res) => {
     .catch((err)=>{
         return res.status(500).send('Internal server error');
     })
-    return res.status(200).send('ok');
+    
 }
 
 module.exports = {
